@@ -116,13 +116,13 @@ const initialOptions: Highcharts.Options = {
       type: "line",
       name: "Check Point",
       color: "goldenrod",
-      data: [[15, 500000]],
+      data: [[15, 85000]],
     },
     {
       type: "line",
       name: "Check Point",
       color: "black",
-      data: [[10, 300000]],
+      data: [[10, 10000]],
     },
   ],
 }
@@ -133,10 +133,7 @@ interface AxisTypeDropdownProps {
   updateYAxisType: (axisType: Highcharts.AxisTypeValue) => void
   selected: Highcharts.AxisTypeValue
 }
-function AxisTypeDropdown({
-  updateYAxisType,
-  selected,
-}: AxisTypeDropdownProps) {
+function AxisTypeDropdown({ updateYAxisType }: AxisTypeDropdownProps) {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const type = e.target.value as Highcharts.AxisTypeValue
 
@@ -151,7 +148,14 @@ function AxisTypeDropdown({
 
   return (
     <label>
-      Y-Axis Type:&nbsp;
+      Y-Axis Type:&nbsp; (
+      <a
+        href={"https://api.highcharts.com/highcharts/yAxis.type"}
+        target="_blank"
+      >
+        yAxis.type
+      </a>
+      ) &nbsp;
       <select onChange={handleChange} defaultValue={INITIAL_Y_AXIS_TYPE}>
         {options.map((option) => (
           <option key={option} value={option}>
@@ -176,11 +180,8 @@ interface LogarithmicBaseProps {
   updateYAxisTickInterval: (tickInterval: number) => void
   selectedTickInterval: number
 }
-function LogarithmicBase({
-  updateYAxisTickInterval,
-  selectedTickInterval,
-}: LogarithmicBaseProps) {
-  const options = [0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100]
+function LogarithmicBase({ updateYAxisTickInterval }: LogarithmicBaseProps) {
+  const options = [0.2, 0.3, 0.4, 0.5, 1, 2, 3, 4, 5]
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const tickInterval = Number(e.target.value)
@@ -189,7 +190,14 @@ function LogarithmicBase({
 
   return (
     <label>
-      Log Base:&nbsp;
+      Log Base:&nbsp; (
+      <a
+        href={"https://api.highcharts.com/highcharts/yAxis.tickInterval"}
+        target="_blank"
+      >
+        yAxis.tickInterval
+      </a>
+      )&nbsp;
       <select
         onChange={handleChange}
         defaultValue={INITIAL_Y_AXIS_TICK_INTERVAL}
@@ -236,15 +244,14 @@ function App() {
           updateYAxisType={updateYAxisType}
           selected={yAxisType}
         />
-      </p>
-      {yAxisType === "logarithmic" && (
-        <p>
+        &nbsp;
+        {yAxisType === "logarithmic" && (
           <LogarithmicBase
             updateYAxisTickInterval={updateYAxisTickInterval}
             selectedTickInterval={yAxisTickInterval}
           />
-        </p>
-      )}
+        )}
+      </p>
 
       <div className="card">
         <HighchartsReact
